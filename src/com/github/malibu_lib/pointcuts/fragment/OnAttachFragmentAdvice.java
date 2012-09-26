@@ -14,9 +14,14 @@
  * limitations under the License.
  ******************************************************************************/
 
-package com.github.malibu_lib;
+package com.github.malibu_lib.pointcuts.fragment;
 
-public interface Pointcut {
+import android.app.Activity;
+import android.app.Fragment;
 
-	void registerAdvice(Advice advice);
+import com.github.malibu_lib.Advice;
+
+public interface OnAttachFragmentAdvice extends Advice {
+
+    public void onAttach(Fragment fragment, Activity activity);
 }

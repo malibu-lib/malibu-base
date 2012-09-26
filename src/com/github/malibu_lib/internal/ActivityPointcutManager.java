@@ -1,6 +1,22 @@
+/*******************************************************************************
+ * Copyright (c) 2012 MASConsult Ltd
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 
 package com.github.malibu_lib.internal;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -8,28 +24,27 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.github.malibu_lib.AspectActivity;
-import com.github.malibu_lib.pointcuts.OnActivityResultActivityAdvice;
-import com.github.malibu_lib.pointcuts.OnAfterSetContentViewActivityAdvice;
-import com.github.malibu_lib.pointcuts.OnBeforeSetContentViewActivityAdvice;
-import com.github.malibu_lib.pointcuts.OnConfigurationChangedActivityAdvice;
-import com.github.malibu_lib.pointcuts.OnCreateActivityAdvice;
-import com.github.malibu_lib.pointcuts.OnCreateOptionsMenuActivityAdvice;
-import com.github.malibu_lib.pointcuts.OnDestroyActivityAdvice;
-import com.github.malibu_lib.pointcuts.OnOptionsItemSelectedActivityAdvice;
-import com.github.malibu_lib.pointcuts.OnOptionsMenuClosedActivityAdvice;
-import com.github.malibu_lib.pointcuts.OnPauseActivityAdvice;
-import com.github.malibu_lib.pointcuts.OnPrepareOptionsMenuActivityAdvice;
-import com.github.malibu_lib.pointcuts.OnRestartActivityAdvice;
-import com.github.malibu_lib.pointcuts.OnRestoreInstanceStateActivityAdvice;
-import com.github.malibu_lib.pointcuts.OnResumeActivityAdvice;
-import com.github.malibu_lib.pointcuts.OnSaveInstanceStateActivityAdvice;
-import com.github.malibu_lib.pointcuts.OnStartActivityAdvice;
-import com.github.malibu_lib.pointcuts.OnStopActivityAdvice;
+import com.github.malibu_lib.pointcuts.activity.OnActivityResultActivityAdvice;
+import com.github.malibu_lib.pointcuts.activity.OnAfterSetContentViewActivityAdvice;
+import com.github.malibu_lib.pointcuts.activity.OnBeforeSetContentViewActivityAdvice;
+import com.github.malibu_lib.pointcuts.activity.OnConfigurationChangedActivityAdvice;
+import com.github.malibu_lib.pointcuts.activity.OnCreateActivityAdvice;
+import com.github.malibu_lib.pointcuts.activity.OnCreateOptionsMenuActivityAdvice;
+import com.github.malibu_lib.pointcuts.activity.OnDestroyActivityAdvice;
+import com.github.malibu_lib.pointcuts.activity.OnOptionsItemSelectedActivityAdvice;
+import com.github.malibu_lib.pointcuts.activity.OnOptionsMenuClosedActivityAdvice;
+import com.github.malibu_lib.pointcuts.activity.OnPauseActivityAdvice;
+import com.github.malibu_lib.pointcuts.activity.OnPrepareOptionsMenuActivityAdvice;
+import com.github.malibu_lib.pointcuts.activity.OnRestartActivityAdvice;
+import com.github.malibu_lib.pointcuts.activity.OnRestoreInstanceStateActivityAdvice;
+import com.github.malibu_lib.pointcuts.activity.OnResumeActivityAdvice;
+import com.github.malibu_lib.pointcuts.activity.OnSaveInstanceStateActivityAdvice;
+import com.github.malibu_lib.pointcuts.activity.OnStartActivityAdvice;
+import com.github.malibu_lib.pointcuts.activity.OnStopActivityAdvice;
 
-public class ActivityPointcutManager extends PointcutManager<AspectActivity> {
+public class ActivityPointcutManager extends PointcutManager<Activity> {
 
-    public ActivityPointcutManager(AspectActivity pointcut) {
+    public ActivityPointcutManager(Activity pointcut) {
         super(pointcut);
     }
 
@@ -66,7 +81,7 @@ public class ActivityPointcutManager extends PointcutManager<AspectActivity> {
     }
 
     public void onStop() {
-        for (OnStopActivityAdvice advice : advices(OnStopActivityAdvice.class)) {
+        for (OnStopActivityAdvice advice : reverseAdvices(OnStopActivityAdvice.class)) {
             advice.onStop(pointcut);
         }
     }
@@ -75,8 +90,6 @@ public class ActivityPointcutManager extends PointcutManager<AspectActivity> {
         for (OnDestroyActivityAdvice advice : reverseAdvices(OnDestroyActivityAdvice.class)) {
             advice.onDestroy(pointcut);
         }
-
-        clearAdvices();
     }
 
     // Activity state

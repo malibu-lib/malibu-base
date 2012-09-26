@@ -14,9 +14,14 @@
  * limitations under the License.
  ******************************************************************************/
 
-package com.github.malibu_lib;
+package com.github.malibu_lib.pointcuts.activity;
 
-public interface Pointcut {
+import android.app.Activity;
+import android.view.Menu;
 
-	void registerAdvice(Advice advice);
+import com.github.malibu_lib.Advice;
+
+public interface OnPrepareOptionsMenuActivityAdvice extends Advice {
+
+    public boolean onPrepareOptionsMenu(Activity activity, Menu menu);
 }
