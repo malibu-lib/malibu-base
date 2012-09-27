@@ -16,12 +16,16 @@
 
 package com.github.malibu_lib.internal;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -29,16 +33,21 @@ import com.github.malibu_lib.pointcuts.fragment.OnActivityCreatedFragmentAdvice;
 import com.github.malibu_lib.pointcuts.fragment.OnAttachFragmentAdvice;
 import com.github.malibu_lib.pointcuts.fragment.OnConfigurationChangedFragmentAdvice;
 import com.github.malibu_lib.pointcuts.fragment.OnCreateFragmentAdvice;
+import com.github.malibu_lib.pointcuts.fragment.OnCreateOptionsMenuFragmentAdvice;
 import com.github.malibu_lib.pointcuts.fragment.OnCreateViewFragmentAdvice;
 import com.github.malibu_lib.pointcuts.fragment.OnDestroyFragmentAdvice;
 import com.github.malibu_lib.pointcuts.fragment.OnDestroyViewFragmentAdvice;
 import com.github.malibu_lib.pointcuts.fragment.OnDetachFragmentAdvice;
+import com.github.malibu_lib.pointcuts.fragment.OnOptionsItemSelectedFragmentAdvice;
+import com.github.malibu_lib.pointcuts.fragment.OnOptionsMenuClosedFragmentAdvice;
 import com.github.malibu_lib.pointcuts.fragment.OnPauseFragmentAdvice;
+import com.github.malibu_lib.pointcuts.fragment.OnPrepareOptionsMenuFragmentAdvice;
 import com.github.malibu_lib.pointcuts.fragment.OnResumeFragmentAdvice;
 import com.github.malibu_lib.pointcuts.fragment.OnSaveInstanceStateFragmentAdvice;
 import com.github.malibu_lib.pointcuts.fragment.OnStartFragmentAdvice;
 import com.github.malibu_lib.pointcuts.fragment.OnStopFragmentAdvice;
 
+@TargetApi(11)
 public class FragmentPointcutManager extends PointcutManager<Fragment> {
 
     public FragmentPointcutManager(Fragment pointcut) {
@@ -140,6 +149,34 @@ public class FragmentPointcutManager extends PointcutManager<Fragment> {
     public void onConfigurationChanged(Configuration newConfig) {
         for (OnConfigurationChangedFragmentAdvice advice : advices(OnConfigurationChangedFragmentAdvice.class)) {
             advice.onConfigurationChanged(pointcut, newConfig);
+        }
+    }
+
+    // Options menu
+
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        for (OnCreateOptionsMenuFragmentAdvice advice : advices(OnCreateOptionsMenuFragmentAdvice.class)) {
+            advice.onCreateOptionsMenu(pointcut, menu, inflater);
+        }
+    }
+
+    public void onPrepareOptionsMenu(Menu menu) {
+        for (OnPrepareOptionsMenuFragmentAdvice advice : advices(OnPrepareOptionsMenuFragmentAdvice.class)) {
+            advice.onPrepareOptionsMenu(pointcut, menu);
+        }
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean result = false;
+        for (OnOptionsItemSelectedFragmentAdvice advice : advices(OnOptionsItemSelectedFragmentAdvice.class)) {
+            result |= advice.onOptionsItemSelected(pointcut, item);
+        }
+        return result;
+    }
+
+    public void onOptionsMenuClosed(Menu menu) {
+        for (OnOptionsMenuClosedFragmentAdvice advice : advices(OnOptionsMenuClosedFragmentAdvice.class)) {
+            advice.onOptionsMenuClosed(pointcut, menu);
         }
     }
 
