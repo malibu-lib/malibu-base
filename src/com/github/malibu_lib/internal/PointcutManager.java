@@ -62,11 +62,11 @@ public class PointcutManager<P> implements Pointcut {
         return result;
     }
 
-    protected <A> Iterable<A> advices(Class<A> pointcut) {
+    protected <A extends Advice> Iterable<A> advices(Class<A> pointcut) {
         return advices(pointcut, advices, advicesCache);
     }
 
-    protected <A> Iterable<A> reverseAdvices(Class<A> pointcut) {
+    protected <A extends Advice> Iterable<A> reverseAdvices(Class<A> pointcut) {
         return advices(pointcut, reverseAdvices, reverseAdvicesCache);
     }
 
