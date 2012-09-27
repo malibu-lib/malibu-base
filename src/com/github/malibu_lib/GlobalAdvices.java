@@ -21,8 +21,9 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-public final class GlobalAdvices {
+public final class GlobalAdvices implements Pointcut {
 
+    public static final GlobalAdvices instance = new GlobalAdvices();
     private static final LinkedList<Advice> advices = new LinkedList<Advice>();
     private static final List<Advice> reverseAdvices = Lists.reverse(advices);
 
@@ -39,6 +40,14 @@ public final class GlobalAdvices {
 
     public static Iterable<Advice> getReverseAdvices() {
         return reverseAdvices;
+    }
+
+    private GlobalAdvices() {
+    }
+
+    @Override
+    public void registerAdvice(Advice advice) {
+        registerGlobalAdvice(advice);
     }
 
 }
