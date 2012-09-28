@@ -1,0 +1,12 @@
+
+package com.github.malibu_lib.pointcuts.service;
+
+import android.app.Service;
+
+import com.github.malibu_lib.Advice;
+
+public interface OnTrimMemoryServiceAdvice extends Advice {
+
+    public void onTrimMemory(Service service, int level);
+
+}
