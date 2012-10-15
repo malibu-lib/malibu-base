@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,6 +32,8 @@ import com.github.malibu_lib.pointcuts.activity.OnConfigurationChangedActivityAd
 import com.github.malibu_lib.pointcuts.activity.OnCreateActivityAdvice;
 import com.github.malibu_lib.pointcuts.activity.OnCreateOptionsMenuActivityAdvice;
 import com.github.malibu_lib.pointcuts.activity.OnDestroyActivityAdvice;
+import com.github.malibu_lib.pointcuts.activity.OnKeyDownActivityAdvice;
+import com.github.malibu_lib.pointcuts.activity.OnKeyUpActivityAdvice;
 import com.github.malibu_lib.pointcuts.activity.OnOptionsItemSelectedActivityAdvice;
 import com.github.malibu_lib.pointcuts.activity.OnOptionsMenuClosedActivityAdvice;
 import com.github.malibu_lib.pointcuts.activity.OnPauseActivityAdvice;
@@ -166,6 +169,24 @@ public class ActivityPointcutManager extends PointcutManager<Activity> {
         for (OnActivityResultActivityAdvice advice : advices(OnActivityResultActivityAdvice.class)) {
             advice.onActivityResult(pointcut, requestCode, resultCode, data);
         }
+    }
+
+    // Misc
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        boolean result = false;
+        for (OnKeyDownActivityAdvice advice : advices(OnKeyDownActivityAdvice.class)) {
+            result |= advice.onKeyDown(pointcut, keyCode, event);
+        }
+        return result;
+    }
+
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        boolean result = false;
+        for (OnKeyUpActivityAdvice advice : advices(OnKeyUpActivityAdvice.class)) {
+            result |= advice.onKeyUp(pointcut, keyCode, event);
+        }
+        return result;
     }
 
 }

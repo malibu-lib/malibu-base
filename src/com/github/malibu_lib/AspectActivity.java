@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -157,6 +158,18 @@ public class AspectActivity extends Activity implements Pointcut {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         pointcutManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    // Misc
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return pointcutManager.onKeyDown(keyCode, event) || super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        return pointcutManager.onKeyUp(keyCode, event) || super.onKeyUp(keyCode, event);
     }
 
 }
