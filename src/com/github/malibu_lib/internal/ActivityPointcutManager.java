@@ -27,6 +27,7 @@ import android.view.MenuItem;
 
 import com.github.malibu_lib.pointcuts.activity.OnActivityResultActivityAdvice;
 import com.github.malibu_lib.pointcuts.activity.OnAfterSetContentViewActivityAdvice;
+import com.github.malibu_lib.pointcuts.activity.OnBackPressedActivityAdvice;
 import com.github.malibu_lib.pointcuts.activity.OnBeforeSetContentViewActivityAdvice;
 import com.github.malibu_lib.pointcuts.activity.OnConfigurationChangedActivityAdvice;
 import com.github.malibu_lib.pointcuts.activity.OnCreateActivityAdvice;
@@ -185,6 +186,14 @@ public class ActivityPointcutManager extends PointcutManager<Activity> {
         boolean result = false;
         for (OnKeyUpActivityAdvice advice : advices(OnKeyUpActivityAdvice.class)) {
             result |= advice.onKeyUp(pointcut, keyCode, event);
+        }
+        return result;
+    }
+
+    public boolean onBackPressed() {
+        boolean result = false;
+        for (OnBackPressedActivityAdvice advice : advices(OnBackPressedActivityAdvice.class)) {
+            result |= advice.onBackPressed(pointcut);
         }
         return result;
     }

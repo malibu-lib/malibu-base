@@ -172,4 +172,10 @@ public class AspectActivity extends Activity implements Pointcut {
         return pointcutManager.onKeyUp(keyCode, event) || super.onKeyUp(keyCode, event);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (!pointcutManager.onBackPressed()) {
+            super.onBackPressed();
+        }
+    }
 }
