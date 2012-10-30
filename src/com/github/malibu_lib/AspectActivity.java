@@ -16,6 +16,7 @@
 
 package com.github.malibu_lib;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -28,6 +29,7 @@ import android.view.ViewGroup.LayoutParams;
 
 import com.github.malibu_lib.internal.ActivityPointcutManager;
 
+@SuppressLint("Registered")
 public class AspectActivity extends Activity implements Pointcut {
 
     // Pointcut definition

@@ -1,6 +1,7 @@
 
 package com.github.malibu_lib;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Service;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.os.IBinder;
 
 import com.github.malibu_lib.internal.ServicePointcutManager;
 
+@SuppressLint("Registered")
 public class AspectService extends Service implements Pointcut {
 
     final ServicePointcutManager pointcutManager = new ServicePointcutManager(this);
