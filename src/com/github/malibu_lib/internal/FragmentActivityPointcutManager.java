@@ -20,16 +20,21 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.github.malibu_lib.pointcuts.fragmentactivity.OnActivityResultFragmentActivityAdvice;
 import com.github.malibu_lib.pointcuts.fragmentactivity.OnAfterSetContentViewFragmentActivityAdvice;
 import com.github.malibu_lib.pointcuts.fragmentactivity.OnBackPressedFragmentActivityAdvice;
 import com.github.malibu_lib.pointcuts.fragmentactivity.OnBeforeSetContentViewFragmentActivityAdvice;
 import com.github.malibu_lib.pointcuts.fragmentactivity.OnConfigurationChangedFragmentActivityAdvice;
+import com.github.malibu_lib.pointcuts.fragmentactivity.OnContextItemSelectedFragmentActivityAdvice;
+import com.github.malibu_lib.pointcuts.fragmentactivity.OnCreateContextMenuFragmentActivityAdvice;
 import com.github.malibu_lib.pointcuts.fragmentactivity.OnCreateFragmentActivityAdvice;
 import com.github.malibu_lib.pointcuts.fragmentactivity.OnCreateOptionsMenuFragmentActivityAdvice;
 import com.github.malibu_lib.pointcuts.fragmentactivity.OnDestroyFragmentActivityAdvice;
@@ -198,4 +203,17 @@ public class FragmentActivityPointcutManager extends PointcutManager<FragmentAct
         return result;
     }
 
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        for (OnCreateContextMenuFragmentActivityAdvice advice : advices(OnCreateContextMenuFragmentActivityAdvice.class)) {
+            advice.onCreateContextMenu(pointcut, menu, v, menuInfo);
+        }
+    }
+
+    public boolean onContextItemSelected(MenuItem item) {
+        boolean result = false;
+        for (OnContextItemSelectedFragmentActivityAdvice advice : advices(OnContextItemSelectedFragmentActivityAdvice.class)) {
+            result |= advice.onContextItemSelected(pointcut, item);
+        }
+        return result;
+    }
 }

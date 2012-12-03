@@ -20,17 +20,22 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.github.malibu_lib.pointcuts.activity.OnActivityResultActivityAdvice;
 import com.github.malibu_lib.pointcuts.activity.OnAfterSetContentViewActivityAdvice;
 import com.github.malibu_lib.pointcuts.activity.OnBackPressedActivityAdvice;
 import com.github.malibu_lib.pointcuts.activity.OnBeforeSetContentViewActivityAdvice;
 import com.github.malibu_lib.pointcuts.activity.OnConfigurationChangedActivityAdvice;
+import com.github.malibu_lib.pointcuts.activity.OnContextItemSelectedActivityAdvice;
 import com.github.malibu_lib.pointcuts.activity.OnCreateActivityAdvice;
+import com.github.malibu_lib.pointcuts.activity.OnCreateContextMenuActivityAdvice;
 import com.github.malibu_lib.pointcuts.activity.OnCreateOptionsMenuActivityAdvice;
 import com.github.malibu_lib.pointcuts.activity.OnDestroyActivityAdvice;
 import com.github.malibu_lib.pointcuts.activity.OnKeyDownActivityAdvice;
@@ -194,6 +199,20 @@ public class ActivityPointcutManager extends PointcutManager<Activity> {
         boolean result = false;
         for (OnBackPressedActivityAdvice advice : advices(OnBackPressedActivityAdvice.class)) {
             result |= advice.onBackPressed(pointcut);
+        }
+        return result;
+    }
+
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        for (OnCreateContextMenuActivityAdvice advice : advices(OnCreateContextMenuActivityAdvice.class)) {
+            advice.onCreateContextMenu(pointcut, menu, v, menuInfo);
+        }
+    }
+
+    public boolean onContextItemSelected(MenuItem item) {
+        boolean result = false;
+        for (OnContextItemSelectedActivityAdvice advice : advices(OnContextItemSelectedActivityAdvice.class)) {
+            result |= advice.onContextItemSelected(pointcut, item);
         }
         return result;
     }
